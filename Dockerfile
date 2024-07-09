@@ -24,5 +24,5 @@ COPY --from=build-stage /app/main /main
 EXPOSE 8081
 
 USER nonroot:nonroot
-
+ENV ENVIRONMENT=prod
 ENTRYPOINT ["/main"]
