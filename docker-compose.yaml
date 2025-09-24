@@ -1,38 +1,37 @@
-version: '3.8'
-
 services:
-  flash_cards:
-    build: 
-      context: .
-      dockerfile: Dockerfile
-    container_name: flash_cards
-    ports:
-      - "8081:8081"
-    environment:
-      - environment=prod
-    depends_on:
-      - postgres
+  # k8s_app:
+  #   build: 
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   container_name: k8s_app
+  #   ports:
+  #     - "8081:8081"
+  #   environment:
+  #     - environment=prod
+  #   depends_on:
+  #     - postgres
   postgres:
     image: postgres:13
     container_name: postgres
     environment:
       POSTGRES_USER: myuser
       POSTGRES_PASSWORD: mypassword
-      POSTGRES_DB: flashcards_db
+      POSTGRES_DB: k8s_db
     ports:
       - "5432:5432"
     volumes:
+      - ./db.sql:/docker-entrypoint-initdb.d/init.sql
       - postgres_data:/var/lib/postgresql/data
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: pgadmin
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: admin
-    ports:
-      - "5050:80"
-    depends_on:
-      - postgres
+  # pgadmin:
+  #   image: dpage/pgadmin4
+  #   container_name: pgadmin
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: admin@admin.com
+  #     PGADMIN_DEFAULT_PASSWORD: admin
+  #   ports:
+  #     - "5050:80"
+  #   depends_on:
+  #     - postgres
 
 volumes:
   postgres_data:
